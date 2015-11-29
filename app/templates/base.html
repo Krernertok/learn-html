@@ -1,0 +1,54 @@
+{% extends "bootstrap/base.html" %}
+
+{% block title %}Learn HTML{% endblock %}
+
+{% block head %}
+{{ super() }}
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/styles.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    {% block navigation %}
+        <nav role="navigation" class="navbar">
+            <a href="{{ url_for('main.index') }}" class="navbar-brand"><img src="{{ url_for('static', filename='images/learn_html_logo.svg') }}"></a>
+            <ul class="nav nav-tabs">
+                <li role="presentation" class="pull-right"><a href="#">Stats</a></li>
+                <li role="presentation" class="active pull-right"><a href="#">Tag Names</a></li>
+            </ul>
+        </nav>
+    {% endblock %}
+    {% for message in get_flashed_messages() %}
+    <div class="alert alert-warning">
+        <button type="button" class="button" data-dismiss="alert">&times;</button>
+        {{ message }}
+    </div>
+    {% endfor %}
+    {% block page_content %}{% endblock %}
+</div>
+{% endblock %}
+
+{% block scripts %}
+{{ super() }}
+{{ moment.include_moment() }}
+<script type="text/javascript" src="{{ url_for('static', filename='scripts/jquery-1.11.2.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='scripts/handlebars-v3.0.1.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='scripts/handlebars-jquery.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='scripts/quiz.js') }}"></script>
+<script type="text/x-handlebars-template" id="new-row">
+    {% raw %}
+        {{#tag}}
+            <tr class="tag-name">
+                <td class="no-borders">
+                    <div>{{name}}</div>
+                </td>
+            </tr>
+            <tr class="description" style="display: none;">
+                <td class="no-borders bottom-border">
+                    <div>{{definition}}</div>
+                </td>            
+            </tr>
+        {{/tag}}
+    {% endraw %}
+</script>
+{% endblock %}

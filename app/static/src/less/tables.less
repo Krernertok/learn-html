@@ -1,0 +1,35 @@
+.active-cell, .active-cell:hover {
+    background-color: @primary;
+    color: @white;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+#valid-tags, #still-to-learn {
+    tr.tag-name {
+        cursor: pointer;
+
+        &:hover {
+            color: @white;
+            font-weight: bold;
+        }
+    }
+
+    tr.description:hover {
+        background-color: @white;
+    }
+
+    td.bottom-border {
+        border-bottom: 1px solid @primary;
+    }
+}
+
+table tbody td.no-borders {
+    border: none;
+}
+
+#invalid-tags {
+    tr.tag-name:hover {
+        background-color: white;
+    }
+}
