@@ -6889,3 +6889,25 @@ table tbody td.no-borders {
 .icon-add-on {
   position: relative;
 }
+
+/* Temp styles here */
+.login-wrapper {
+  margin-top: 50px;
+  padding: 20px;
+}
+
+@media (min-width: 768px) {
+  .login-wrapper {
+    border: 1px solid #e34c26;
+    border-radius: 5px;
+  }
+}
+
+.login-wrapper img {
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.login-wrapper input.btn {
+  margin-top: 20px;
+}
