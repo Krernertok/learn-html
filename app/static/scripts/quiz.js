@@ -13,7 +13,7 @@ $(document).ready(function(){
                     definition: null
                 };
                 
-            $.getJSON("api/v1.0/definition", {'tagname': tag.name}, function(data){
+            $.getJSON("api/v1.0/definition", {'tagname': tag.name}, function(data) {
                 definition = data.definition;
 
                 if (definition) {
@@ -71,7 +71,31 @@ $(document).ready(function(){
         },
         
         showRest = function() {
-            $.getJSON('api/v1.0/remaining_tags', {'alreadyAnswered': previousInputs},
+
+            $.ajax({
+                url: '/api/v1.0/remaining_tags',
+                data: { 'answered': previousInputs },
+                traditional: true,
+                success: function(data) {
+                    for (var key in data) {
+                        var newItem = $("#new-row").template({
+                            tag: {
+                                name: key,
+                                definition: data.key
+                            }
+                        }).filter("*");
+                        $("#still-to-learn tbody").append(newItem);
+                    }
+
+                    showAllButton.attr("disabled", "disabled");
+                    $("input").attr("disabled", "disabled");
+                    
+                    clearInput();
+                    hideSuccessFailure();
+                    showResults();
+                }
+            });
+            /*$.getJSON('/api/v1.0/remaining_tags', {'answered': previousInputs},
                 function(data) {
                     for (var key in data) {
                         var newItem = $("#new-row").template({
@@ -90,7 +114,7 @@ $(document).ready(function(){
                     hideSuccessFailure();
                     showResults();
                 }
-            );
+            );*/
         },
 
         hideSuccessFailure = function() {
@@ -109,6 +133,7 @@ $(document).ready(function(){
                 button = $("[name=enter-input]");
 
             hideSuccessFailure();
+
             if (inputValue) {
                 if ($.inArray(inputValue, previousInputs) > -1) {
                     prompt.removeClass("invisible");
@@ -116,10 +141,10 @@ $(document).ready(function(){
                 } else {
                     prompt.addClass("invisible");
                     button.removeAttr("disabled");
+                    
                     //when user presses 'Return'
                     if (event.keyCode === 13) {
                         checkTagName();
-                        clearInput();
                     }
                 }
             } else {
@@ -134,6 +159,9 @@ $(document).ready(function(){
 
     $("[name=enter-input]").click(checkTagName);
     showAllButton.click(showRest);
+    $("form").submit(function() {
+        return false;
+    });
     input.keyup(keyUpHandler);
     
     $('#valid-tags, #still-to-learn').on("click","tr.tag-name", toggleDefinitionRow);

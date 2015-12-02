@@ -14,7 +14,7 @@ def get_definition():
 
 @api.route('/remaining_tags')
 def get_remaining_tags():
-    answered_tag_names = request.args.get('alreadyAnswered')
+    answered_tag_names = request.args.getlist('answered')
     if answered_tag_names is None:
         return bad_request('Tag names not included in request.')
     return jsonify(get_tags(answered_tag_names))
