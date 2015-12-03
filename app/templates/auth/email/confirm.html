@@ -1,0 +1,7 @@
+<p>Dear, {{ user.username }}</p>
+<p>Welcome to Learn HTML!</p>
+<p>Click the link below to confirm your account:<br>
+{{ url_for('auth.confirm', token=token, _external=True) }}</p>
+<p>Hoping to see you soon,</p>
+<p>The Learn HTML Team</p>
+<p><br><small>Note: Replies to this email are not monitored.</small></p>

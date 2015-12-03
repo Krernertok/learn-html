@@ -1,0 +1,14 @@
+Dear {{ user.username }},
+
+Welcome to Learn HTML!
+
+Click the link belowe to confirm your account:
+{{ url_for('auth.confirm', token=token, _external=True) }}
+
+
+Hoping to see you soon,
+
+The Learn HTML Team
+
+
+Note: Replies to this email are not monitored.

@@ -95,26 +95,6 @@ $(document).ready(function(){
                     showResults();
                 }
             });
-            /*$.getJSON('/api/v1.0/remaining_tags', {'answered': previousInputs},
-                function(data) {
-                    for (var key in data) {
-                        var newItem = $("#new-row").template({
-                            tag: {
-                                name: key,
-                                definition: data.key
-                            }
-                        }).filter("*");
-                        $("#still-to-learn tbody").append(newItem);
-                    }
-
-                    showAllButton.attr("disabled", "disabled");
-                    $("input").attr("disabled", "disabled");
-                    
-                    clearInput();
-                    hideSuccessFailure();
-                    showResults();
-                }
-            );*/
         },
 
         hideSuccessFailure = function() {

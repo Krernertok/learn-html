@@ -37,3 +37,21 @@ class ModelTestCase(unittest.TestCase):
         u1 = User(password="python")
         u2 = User(password="boa")
         self.assertTrue(u1.password_hash != u2.password_hash)
+
+    def test_confirm_token(self):
+        u1 = User(password='python')
+        u2 = User(password='boa')
+
+        db.session.add(u1)
+        db.session.add(u2)
+        db.session.commit()
+
+        self.assertFalse(u1.confirmed)
+
+        token1 = u1.generate_confirmation_token()
+        token2 = u2.generate_confirmation_token()
+        
+        self.assertTrue(u1.confirm(token1))
+        self.assertTrue(u1.confirmed)
+        self.assertFalse(u1.confirm(token2))
+        self.assertFalse(u1.confirm('123'))
