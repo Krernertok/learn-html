@@ -1,0 +1,9 @@
+<p>Dear, {{ user.username }}</p>
+
+<p>Click the link below to verify your email address:<br>
+{{ url_for('auth.change_email', token=token, _external=True) }}</p>
+
+<p>Sincerely,</p>
+<p>The Learn HTML Team</p>
+
+<p><br><small>Note: Replies to this email are not monitored.</small></p>

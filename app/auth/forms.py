@@ -43,13 +43,17 @@ class ChangePasswordForm(Form):
     submit = SubmitField('Update password')
 
 
-class RequestPasswordChangeForm(Form):
+class RequestPasswordResetForm(Form):
     email = StringField('Email', validators=[Required(), Length(1, 64),
         Email()])
     submit = SubmitField('Reset password')
 
+    def validate_email(self, field):
+        if User.query.filter_by(email=field.data).first() is None:
+            raise ValidationError('Email not registered.')
 
-class PasswordResetForm(Form):
+
+class ResetPasswordForm(Form):
     email = StringField('Email', validators=[Required(), Length(1, 64),
         Email()])
     password = PasswordField('New password', validators=[Required(),
@@ -69,5 +73,5 @@ class ChangeEmailForm(Form):
     submit = SubmitField('Update email address')
 
     def validate_email(self, field):
-        if User.query.filter_by(email=field.data).all() is not None:
+        if User.query.filter_by(email=field.data).first() is not None:
             raise ValidationError('Email address already registered.')
