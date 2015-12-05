@@ -5,20 +5,14 @@ This repository contains the source code for my first web application, Learn HTM
 
 The application is based on the _Flasky_ application used in _Flask Web Development_ by Miguel Grinberg.
 
-Planned features:
-- Registering new users
-- Logging in and out
-- "Stats" page for tracking progress
-
 Future features:
-- Improve usability through better layouts
+- Improve usability
 - Visualizations of stats using D3.js
-
 
 Technologies used:
 - HTML / CSS
 - Bootstrap
 - jQuery
 - Flask + extensions
-- SQLAlchemy + SQLite (planned)
+- SQLAlchemy + SQLite
 - D3.js (planned)
