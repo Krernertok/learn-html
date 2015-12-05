@@ -3,6 +3,8 @@ from flask import current_app
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask.ext.login import UserMixin
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
+from .tagnames.tagnames import taglist
+from datetime import datetime
 
 
 class User(db.Model, UserMixin):
@@ -81,3 +83,51 @@ class User(db.Model, UserMixin):
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
+
+
+class Tag(db.Model):
+    __tablename__ = 'tags'
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(64), index=True, unique=True)
+    definition = db.Column(db.String(256))
+
+    @staticmethod
+    def insert_tags():
+        for key in taglist:
+            tag = Tag(name=key, definition=taglist[key])
+            db.session.add(tag)
+        db.session.commit()
+
+    @staticmethod
+    def get_definition(name):
+        tag = Tag.query.filter_by(name=name).first()
+        if tag is None:
+            return None
+        else:
+            return tag.definition
+
+    @staticmethod
+    def get_remaining_tags(tags):
+        all_tags = Tag.query.all()
+        remaining_tags = dict()
+        for tag in all_tags:
+            if tag.name not in tags:
+                remaining_tags.update({tag.name: tag.definition})
+        return remaining_tags
+
+
+class Session(db.Model):
+    __tablename__ = 'sessions'
+    id = db.Column(db.Integer, primary_key=True)
+    session_id = db.Column(db.String(64), index=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    session_start = db.Column(db.DateTime, default=datetime.utcnow)
+    right_answers = db.relationship('Tag', secondary='right_answers',
+        backref=db.backref('sessions', lazy='dynamic'),
+        lazy='dynamic')
+
+
+right_answers = db.Table('right_answers',
+    db.Column('session_id', db.Integer, db.ForeignKey('sessions.session_id')),
+    db.Column('tag_name', db.String(64), db.ForeignKey('tags.name'))
+)

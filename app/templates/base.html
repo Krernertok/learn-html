@@ -2,30 +2,56 @@
 
 {% block title %}Learn HTML{% endblock %}
 
+{% set pages_with_nav = ['index', 'profile'] %}
+
 {% block head %}
+
 {{ super() }}
 <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/styles.css') }}">
+<link rel="shortcut icon" href="{{ url_for('static', filename='images/favicon.ico') }}" type="image/x-icon">
+
 {% endblock %}
 
+
 {% block content %}
+
 <div class="container">
+
+    {% if active_page != 'login' %}
     {% block navigation %}
+        <div class="login-logout pull-right">
+        {% if active_page in pages_with_nav %}
+            {% if current_user.is_authenticated %}
+                Hi, {{ current_user.username }}! <a href="{{ url_for('auth.logout') }}">Log out?</a>
+            {% elif page_active != '' %}
+                Don't be a stranger, <a href="{{ url_for('auth.login') }}">log in here</a>
+            {% endif %}
+        {% endif %}
+        </div>
         <nav role="navigation" class="navbar">
             <a href="{{ url_for('main.index') }}" class="navbar-brand"><img src="{{ url_for('static', filename='images/learn_html_logo.svg') }}"></a>
+            
             <ul class="nav nav-tabs">
-                <li role="presentation" class="pull-right"><a href="#">Profile</a></li>
-                <li role="presentation" class="active pull-right"><a href="#">Tag Names</a></li>
+            {% if active_page %}
+                <li role="presentation" class="pull-right{% if active_page == 'profile' %} active{% endif %}"><a href="{{ url_for('main.profile') }}">Profile</a></li>
+                <li role="presentation" class="pull-right{% if active_page == 'index' %} active{% endif %}"><a href="{{ url_for('main.index') }}">Tag Names</a></li>
+            {% endif %}
             </ul>
         </nav>
     {% endblock %}
+    {% endif %}
+
     {% for message in get_flashed_messages() %}
     <div class="alert alert-warning">
         <button type="button" class="close" data-dismiss="alert">&times;</button>
         {{ message }}
     </div>
     {% endfor %}
+    
     {% block page_content %}{% endblock %}
+
 </div>
+
 {% endblock %}
 
 {% block scripts %}

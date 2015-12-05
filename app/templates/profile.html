@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% set active_page = "profile" %}
+
+{% block title %}LearnHTML - Profile{% endblock %}
+
+{% block page_content %}
+<div>
+    <h1>Profile</h1>
+    <div class="btn-group btn-group-justified" role="group">
+        <a href="{{ url_for('auth.change_password') }}">
+            <button type="button" class="btn btn-default">Change password</button>
+        </a>
+        <a href="{{ url_for('auth.request_email_change') }}">
+            <button type="button" class="btn btn-default">Change email</button>
+        </a>
+    </div>
+</div>
+<div class="row">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Correct Answers</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for session in sessions %}
+            <tr>
+                <th>{{ moment(session.session_start).format('L') }}</th>
+                <th>{{ (100 * session.right_answers.count() / count) | round | int }}%</th>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

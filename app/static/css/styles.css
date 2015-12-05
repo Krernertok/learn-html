@@ -6890,7 +6890,10 @@ table tbody td.no-borders {
   position: relative;
 }
 
-/* Temp styles here */
+/* 
+ * Temp styles here 
+ */
+
 .login-wrapper {
   margin-top: 50px;
   padding: 20px;
@@ -6910,4 +6913,17 @@ table tbody td.no-borders {
 
 .login-wrapper input.btn {
   margin-top: 20px;
+}
+
+.login-logout {
+  position: relative;
+  top: 10px;
+}
+
+.btn-group .btn-default {
+  width: auto;
+}
+
+.btn-group a:hover {
+  text-decoration: none;
 }

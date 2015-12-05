@@ -1,4 +1,4 @@
-tag_list = {
+taglist = {
       "!DOCTYPE": "Specifies the document type",
       "a": "Specifies a hyperlink",
       "abbr": "Specifies an abbreviation",
@@ -117,7 +117,7 @@ tag_list = {
 }
 
 def get_definition(tag_name):
-      return tag_list.get(tag_name, None)
+      return taglist.get(tag_name, None)
 
 def get_remaining_tags(tag_names):
-      return {tag: tag_list[tag] for tag in tag_list if tag not in tag_names}
+      return {tag: taglist[tag] for tag in taglist if tag not in tag_names}

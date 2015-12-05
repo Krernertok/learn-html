@@ -3,19 +3,13 @@
 
 {% block title %}LearnHTML - Change your email{% endblock %}
 
-{% block content %}
-<div class="container">
-    {% block navigation %}
-    <nav role="navigation" class="navbar">
-        <img class="navbar-brand" src="{{ url_for('static', filename='images/learn_html_logo.svg') }}"></a>
-        <ul class="nav nav-tabs"></ul>
-    </nav>
-    {% endblock %}
-    <div class="col-sm-6 col-sm-offset-4">
-        <h1>Change your email</h1>
-    </div>
-    <div class="col-sm-4 col-sm-offset-4">
-        {{ wtf.quick_form(form) }}
-    </div>
+{% block page_content %}
+
+<div class="col-sm-6 col-sm-offset-4">
+    <h1>Change your email</h1>
 </div>
+<div class="col-sm-4 col-sm-offset-4">
+    {{ wtf.quick_form(form) }}
+</div>
+
 {% endblock %}

@@ -4,13 +4,14 @@ import os
 from app import create_app, db
 from flask.ext.script import Manager, Shell
 from flask.ext.migrate import Migrate, MigrateCommand
+from app.models import Tag, Session
 
 app = create_app(os.getenv('FLASK_CONFIG') or 'default')
 manager = Manager(app)
 migrate = Migrate(app, db)
 
 def make_shell_context():
-    return dict(app=app, db=db)
+    return dict(app=app, db=db, Tag=Tag, Session=Session)
 
 manager.add_command("shell", Shell(make_context=make_shell_context))
 manager.add_command('db', MigrateCommand)
@@ -25,7 +26,8 @@ def test():
 def reset_db():
     db.drop_all()
     db.create_all()
-    
+    Tag.insert_tags()
+
 
 if __name__ == '__main__':
     manager.run()

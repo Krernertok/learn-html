@@ -81,7 +81,7 @@ $(document).ready(function(){
                         var newItem = $("#new-row").template({
                             tag: {
                                 name: key,
-                                definition: data.key
+                                definition: data[key]
                             }
                         }).filter("*");
                         $("#still-to-learn tbody").append(newItem);
