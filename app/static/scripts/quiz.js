@@ -93,6 +93,7 @@ $(document).ready(function(){
                     clearInput();
                     hideSuccessFailure();
                     showResults();
+                    switchToRetry();
                 }
             });
         },
@@ -135,6 +136,14 @@ $(document).ready(function(){
         toggleDefinitionRow = function() {
             $(this).toggleClass("active-cell");
             $(this).next().toggle();
+        },
+
+        switchToRetry = function() {
+            $('#retry').show();
+            $('#show-all').hide();
+        },
+        reload = function() {
+            window.location.reload(true);
         }; 
 
     $("[name=enter-input]").click(checkTagName);
@@ -145,4 +154,7 @@ $(document).ready(function(){
     input.keyup(keyUpHandler);
     
     $('#valid-tags, #still-to-learn').on("click","tr.tag-name", toggleDefinitionRow);
+    $('#retry').click(function() {
+        reload();
+    })
 });
