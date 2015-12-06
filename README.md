@@ -13,7 +13,6 @@ Future features:
 - Front-end validation
 - Visualizations of stats using D3.js
 
-
 Technologies used:
 - HTML / CSS
 - Bootstrap
