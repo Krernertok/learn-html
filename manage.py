@@ -35,6 +35,9 @@ def deploy():
     from app.models import User, Tag
     # migrate database to most recent revision
     upgrade()
+    
+    db.drop_all()
+    db.create_all()
     # add tag names
     Tag.insert_tags()
 
