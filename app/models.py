@@ -128,6 +128,6 @@ class Session(db.Model):
 
 
 right_answers = db.Table('right_answers',
-    db.Column('session_id', db.Integer, db.ForeignKey('sessions.session_id')),
+    db.Column('session_id', db.String(64), db.ForeignKey('sessions.session_id')),
     db.Column('tag_name', db.String(64), db.ForeignKey('tags.name'))
 )
