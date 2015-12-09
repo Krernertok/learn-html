@@ -43,3 +43,7 @@ venv
 
 #OSX Files
 .DS_Store
+
+#Heroku
+.env
+Procfile

@@ -6,7 +6,7 @@ from flask.ext.script import Manager, Shell
 from flask.ext.migrate import Migrate, MigrateCommand
 from app.models import Tag, Session
 
-app = create_app(os.getenv('FLASK_CONFIG') or 'default')
+app = create_app(os.getenv('LEARN_HTML_CONFIG') or 'default')
 manager = Manager(app)
 migrate = Migrate(app, db)
 

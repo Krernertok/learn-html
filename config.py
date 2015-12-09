@@ -13,6 +13,7 @@ class Config:
     LEARN_HTML_MAIL_SUBJECT_PREFIX = '[Learn HTML]'
     LEARN_HTML_MAIL_SENDER = 'Learn HTML Admin <learn.html5.tagnames@gmail.com>'
     LEARN_HTML_ADMIN = os.environ.get('LEARN_HTML_ADMIN')
+    SSL_DISABLE = True
 
     @staticmethod
     def init_app(app):
@@ -58,10 +59,28 @@ class ProductionConfig(Config):
         app.logger.addHandler(mail_handler)
 
 
+class HerokuConfig(ProductionConfig):
+    @classmethod
+    def init_app(cls, app):
+        ProductionConfig.init_app(app)
+        SSL_DISABLE = bool(os.environ.get('SSL_DISABLE'))
+        # log to stderr
+        import logging
+        from logging import StreamHandler
+        file_handler = StreamHandler()
+        file_handler.setLevel(logging.WARNING)
+        app.logger.addHandler(file_handler)
+        # handle proxy server headers
+        from werkzeug.contrib.fixers import ProxyFix
+        app.wsgi_app = ProxyFix(app)
+
+
+
 config = {
     'development': DevelopmentConfig,
     'testing': TestingConfig,
     'production': ProductionConfig,
+    'heroku': HerokuConfig,
 
     'default': DevelopmentConfig
 }
