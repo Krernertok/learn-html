@@ -119,7 +119,7 @@ class Tag(db.Model):
 class Session(db.Model):
     __tablename__ = 'sessions'
     id = db.Column(db.Integer, primary_key=True)
-    session_id = db.Column(db.String(64), index=True)
+    session_id = db.Column(db.String(64), index=True, unique=True)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     session_start = db.Column(db.DateTime, default=datetime.utcnow)
     right_answers = db.relationship('Tag', secondary='right_answers',
