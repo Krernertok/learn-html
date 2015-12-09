@@ -21,12 +21,7 @@ def test():
     import unittest
     tests = unittest.TestLoader().discover('tests')
     unittest.TextTestRunner(verbosity=2).run(tests)
-
-@manager.command
-def reset_db():
-    db.drop_all()
-    db.create_all()
-    Tag.insert_tags()
+    
 
 @manager.command
 def deploy():
@@ -35,9 +30,7 @@ def deploy():
     from app.models import User, Tag
     # migrate database to most recent revision
     upgrade()
-    
-    db.drop_all()
-    db.create_all()
+
     # add tag names
     Tag.insert_tags()
 
