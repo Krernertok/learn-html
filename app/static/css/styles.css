@@ -6927,3 +6927,11 @@ table tbody td.no-borders {
 .btn-group a:hover {
   text-decoration: none;
 }
+
+.flash {
+  margin-top: 20px;
+}
+
+.empty-nav {
+  height: 92px;
+}

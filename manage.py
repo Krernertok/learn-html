@@ -28,6 +28,16 @@ def reset_db():
     db.create_all()
     Tag.insert_tags()
 
+@manager.command
+def deploy():
+    """Run deployment tasks."""
+    from flask.ext.migrate import upgrade
+    from app.models import User, Tag
+    # migrate database to most recent revision
+    upgrade()
+    # add tag names
+    Tag.insert_tags()
+
 
 if __name__ == '__main__':
     manager.run()

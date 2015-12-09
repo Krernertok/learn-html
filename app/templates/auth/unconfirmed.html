@@ -2,20 +2,13 @@
 
 {% block title %}LearnHTML - Confirm your account{% endblock %}
 
-{% block content %}
-<div class="container">
-    {% block navigation %}
+{% block page_content %}
 
-    <nav role="navigation" class="navbar">
-        <img class="navbar-brand" src="{{ url_for('static', filename='images/learn_html_logo.svg') }}"></a>
-        <ul class="nav nav-tabs"></ul>
-    </nav>
-    {% endblock %}
-    <div class="col-sm-4 col-sm-offset-4">
-        <h1>Hello, {{ current_user.username }}</h1>
-        <strong>You haven't confirmed your account yet.</strong>
-        <p>You need to confirm your accoung before you can access your account. You should have received a confirmation email, so please check your inbox!</p>
-        <p>If you need another confirmation email, please <a href="{{ url_for('auth.resend_confirmation')}}">click here</a>.</p>
-    </div>
+<div class="col-sm-4 col-sm-offset-4">
+    <h1>Hello, {{ current_user.username }}</h1>
+    <strong>You haven't confirmed your account yet.</strong>
+    <p>You need to confirm your accoung before you can access your account. You should have received a confirmation email, so please check your inbox!</p>
+    <p>If you need another confirmation email, please <a href="{{ url_for('auth.resend_confirmation')}}">click here</a>.</p>
 </div>
+
 {% endblock %}
