@@ -46,4 +46,3 @@ venv
 
 #Heroku
 .env
-Procfile
