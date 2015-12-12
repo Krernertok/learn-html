@@ -60,10 +60,11 @@ class ProductionConfig(Config):
 
 
 class HerokuConfig(ProductionConfig):
+    SSL_DISABLE = bool(os.environ.get('SSL_DISABLE'))
+
     @classmethod
     def init_app(cls, app):
         ProductionConfig.init_app(app)
-        SSL_DISABLE = bool(os.environ.get('SSL_DISABLE'))
         # log to stderr
         import logging
         from logging import StreamHandler
