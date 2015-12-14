@@ -5,7 +5,6 @@ This repository contains the source code for my first web application, Learn HTM
 
 The project is still very much a work in progress. The following issues are next in line to be fixed:
 
-- 'Sessions' should be initialized after the first attempt
 - Account confirmation experience should be made smoother if possible
 - 'Back' buttons to direct user back to Profile from 'Change your password' and 'Change your email' pages
 - JavaScript should handle waiting times for slow responses:

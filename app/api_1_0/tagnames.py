@@ -1,8 +1,9 @@
 from flask import jsonify, request, session
+from flask.ext.login import current_user
 from . import api
 from .. import db
 from .errors import bad_request
-from ..models import Tag, Session
+from ..models import Tag, Session, User
 
 
 @api.route('/definition')
@@ -12,8 +13,12 @@ def get_definition():
         return bad_request('Tag name not included in request.')
     definition = Tag.get_definition(name=tag_name)
     s_id = session.get('session_id')
+    quiz_session = Session.query.filter_by(session_id=s_id).first()
     if s_id and definition:
-        quiz_session = Session.query.filter_by(session_id=s_id).first()
+        user = User.query.filter_by(username=current_user.username).first()
+        if quiz_session is None:
+            quiz_session = Session(session_id=s_id, user_id=user.id)
+            db.session.add(quiz_session)
         tag = Tag.query.filter_by(name=tag_name).first()
         quiz_session.right_answers.append(tag)
         db.session.add(quiz_session)

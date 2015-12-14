@@ -16,10 +16,8 @@ def index():
     if current_user.is_authenticated:
         session_id = str(uuid4())
         session['session_id'] = session_id
-        user = User.query.filter_by(username=current_user.username).first()
-        quiz_session = Session(session_id=session_id, user_id=user.id)
-        db.session.add(quiz_session)
-    return render_template('index.html')
+    tag_count = Tag.query.count()
+    return render_template('index.html', tag_count=tag_count)
 
 
 @main.route('/profile')

@@ -15,7 +15,7 @@
         </a>
     </div>
 </div>
-<div class="row">
+<div class="row margin-top-medium">
     <table class="table">
         <thead>
             <tr>
@@ -26,7 +26,7 @@
         <tbody>
             {% for session in sessions %}
             <tr>
-                <th>{{ moment(session.session_start).format('L') }}</th>
+                <th>{{ moment(session.session_start).format('LLL') }}</th>
                 <th>{{ (100 * session.right_answers.count() / count) | round | int }}%</th>
             </tr>
             {% endfor %}

@@ -4,7 +4,8 @@
 {% block page_content %}
 <div class="content">
     <div class="row">
-        <h2 class="margin-top-medium">Tag Name Quiz</h2>
+        <h2>Tag Name Quiz</h2>
+        <div class="well" >Type in as many valid HTML5 tag names as you can remember. If you don't remember all of the valid tags, click <strong>Show All</strong> to reveal the remaining tags. If you've logged in, you can check your progress on the <a href="{{ url_for('main.profile') }}">Profile</a> page.</div>
     </div>
     <div class="row margin-top-large">
         <form class="form-group">
@@ -17,7 +18,7 @@
                         <strong>You have already answered that!</strong>
                     </p>
                     <p class="text-center">
-                        <span id="tags-left">115</span> tag names to go!
+                        <span id="tags-left">{{ tag_count }}</span> tag names to go!
                     </p>
                 </div>
                 <div class="col-xs-3">

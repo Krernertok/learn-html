@@ -6935,3 +6935,7 @@ table tbody td.no-borders {
 .empty-nav {
   height: 92px;
 }
+
+#tags-left {
+  font-weight: bold;
+}
