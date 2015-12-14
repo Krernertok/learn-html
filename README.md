@@ -1,12 +1,12 @@
 Learn HTML
 ==========
 
-This repository contains the source code for my first web application, Learn HTML, which is used for learning all valid HTML5 tags. The goal of this project is to become acquainted with creating a simple web application using front-end and back-end technologies as well as basic UI/visual/web design. The app is hosted on heroku: [Learn HTML](https://learn-html.herokuapp.com)
+This repository contains the source code for my first web application, Learn HTML, which is used for learning all valid HTML5 tags. The goal of this project is to become acquainted with creating a simple web application using front-end and back-end technologies as well as basic UI/visual/web design. The app is hosted on Heroku: [Learn HTML](https://learn-html.herokuapp.com)
 
 The project is still very much a work in progress. The following issues are next in line to be fixed:
 
 - Account confirmation experience should be made smoother if possible
-- 'Back' buttons to direct user back to Profile from 'Change your password' and 'Change your email' pages
+- **Back** buttons to direct user back to Profile from **Change your password** and **Change your email** pages
 - JavaScript should handle waiting times for slow responses:
     - Add a waiting element or icon while call to API is made and response is loaded
     - Clear input field as soon as possible after text has been added
