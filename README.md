@@ -10,7 +10,6 @@ The project is still very much a work in progress. The following issues are next
 - JavaScript should handle waiting times for slow responses:
     - Add a waiting element or icon while call to API is made and response is loaded
     - Clear input field as soon as possible after text has been added
-- Add extra top margin to stats page in Profile
 
 
 Feedback will be gathered from test users to identify other usability/UX issues.
