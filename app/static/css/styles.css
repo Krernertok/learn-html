@@ -6939,3 +6939,11 @@ table tbody td.no-borders {
 #tags-left {
   font-weight: bold;
 }
+
+.btn.btn-default.back-button {
+  width: 40px;
+}
+
+.margin-top-med-small {
+  margin-top: 20px;
+}

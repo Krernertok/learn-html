@@ -1,0 +1,9 @@
+{% macro back_button() %}
+<div class="col-sm-1 margin-top-med-small">
+    <a href="{{ url_for('main.profile') }}">
+        <button class="btn btn-default back-button" aria-label="Back Button">
+            <span class="glyphicon glyphicon-arrow-left"></span>
+        </button>
+    </a>
+</div>
+{% endmacro %}

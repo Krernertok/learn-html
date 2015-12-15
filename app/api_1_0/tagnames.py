@@ -11,14 +11,14 @@ def get_definition():
     tag_name = request.args.get('tagname')
     if tag_name is None:
         return bad_request('Tag name not included in request.')
-    definition = Tag.get_definition(name=tag_name)
+    user = User.query.filter_by(username=current_user.username).first()
     s_id = session.get('session_id')
     quiz_session = Session.query.filter_by(session_id=s_id).first()
+    if quiz_session is None:
+        quiz_session = Session(session_id=s_id, user_id=user.id)
+        db.session.add(quiz_session)
+    definition = Tag.get_definition(name=tag_name)
     if s_id and definition:
-        user = User.query.filter_by(username=current_user.username).first()
-        if quiz_session is None:
-            quiz_session = Session(session_id=s_id, user_id=user.id)
-            db.session.add(quiz_session)
         tag = Tag.query.filter_by(name=tag_name).first()
         quiz_session.right_answers.append(tag)
         db.session.add(quiz_session)
