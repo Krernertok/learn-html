@@ -14,25 +14,35 @@ $(document).ready(function(){
                 };
 
             clearInput();
-                
-            $.getJSON("api/v1.0/definition", {'tagname': tag.name}, function(data) {
-                definition = data.definition;
+            input.attr('disabled', 'disabled').attr('placeholder', 'Checking your answer now.');
+            
+            $.ajax({
+                url: 'api/v1.0/definition',
+                data: {'tagname': tag.name},
+                dataType: 'json',
+                type: 'GET',
+                success: function(data) {
+                    definition = data.definition;
 
-                if (definition) {
+                    if (definition) {
 
-                    tag.definition = definition;
-        
-                    correctAnswers += 1;
-                    updateCorrectAnswersIndicator();
-                    showSuccess();
-                    
-                    logInput(userInput.tagName);            
-                    $("#valid-tags tbody").append($("#new-row").template({tag: tag}));
+                        tag.definition = definition;
+            
+                        correctAnswers += 1;
+                        updateCorrectAnswersIndicator();
+                        showSuccess();
+                        
+                        logInput(userInput.tagName);            
+                        $("#valid-tags tbody").append($("#new-row").template({tag: tag}));
 
-                } else {
-                    logInput(userInput.wholeText);
-                    showFailure();
-                    $("#invalid-tags tbody").append($("#new-row").template({tag: tag}));
+                    } else {
+                        logInput(userInput.wholeText);
+                        showFailure();
+                        $("#invalid-tags tbody").append($("#new-row").template({tag: tag}));
+                    }
+                },
+                complete: function() {
+                    input.removeAttr('disabled').attr('placeholder', 'Enter tag names here').focus();    
                 }
             });
         },

@@ -5,9 +5,7 @@ This repository contains the source code for my first web application, Learn HTM
 
 The project is still very much a work in progress. The following issues are next in line to be fixed:
 
-- JavaScript should handle waiting times for slow responses:
-    - Add a waiting element or icon while call to API is made and response is loaded
-    - Clear input field as soon as possible after text has been added
+- Congratulation message when all tag names have been answered
 
 
 Feedback will be gathered from test users to identify other usability/UX issues.
