@@ -12,6 +12,8 @@ $(document).ready(function(){
                     name: userInput.tagName,
                     definition: null
                 };
+
+            clearInput();
                 
             $.getJSON("api/v1.0/definition", {'tagname': tag.name}, function(data) {
                 definition = data.definition;
@@ -32,8 +34,6 @@ $(document).ready(function(){
                     showFailure();
                     $("#invalid-tags tbody").append($("#new-row").template({tag: tag}));
                 }
-
-                clearInput();
             });
         },
         
@@ -114,15 +114,15 @@ $(document).ready(function(){
 
                     showAllButton.attr("disabled", "disabled");
                     $("input").attr("disabled", "disabled");
-                    
+               
+                    clearInput();     
                     hideSuccessFailure();
                     showResults();
                     switchToRetry();
                 }
             });
-            clearInput();
         },
-        
+
         showResults = function() {
             var elem = "<p class='text-center margin-top-small'><strong>You remembered " + correctAnswers + " out of 115 tag names!</strong></p>";
             $(".form-group.icon-add-on").find("p").remove();
