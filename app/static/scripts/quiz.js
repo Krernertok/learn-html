@@ -37,6 +37,11 @@ $(document).ready(function(){
             });
         },
         
+        clearInput = function() {
+            input.val("");
+            $("[name=enter-input]").attr("disabled", "disabled");
+        },
+
         filterInput = function() {
             var inputFilter = /^(\S+)(\s*(.*))$/,
                 inputs = inputFilter.exec(input.val().trim()); 
@@ -46,68 +51,11 @@ $(document).ready(function(){
                 wholeText: inputs[2]
             };
         },
-        
-        logInput = function(input) {
-            previousInputs.push(input);
-        },
-        
-        updateCorrectAnswersIndicator = function() {
-            $("#tags-left").html(115 - correctAnswers);
-        },
-        
-        clearInput = function() {
-            input.val("");
-            $("[name=enter-input]").attr("disabled", "disabled");
-        },
-        
-        showFailure = function() {
-            $("#success").hide();
-            $("#failure").show();
-        },
-
-        showSuccess = function() {
-            $("#failure").hide();
-            $("#success").show();
-        },
-        
-        showRest = function() {
-
-            $.ajax({
-                url: '/api/v1.0/remaining_tags',
-                data: { 'answered': previousInputs },
-                traditional: true,
-                success: function(data) {
-                    for (var key in data) {
-                        var newItem = $("#new-row").template({
-                            tag: {
-                                name: key,
-                                definition: data[key]
-                            }
-                        }).filter("*");
-                        $("#still-to-learn tbody").append(newItem);
-                    }
-
-                    showAllButton.attr("disabled", "disabled");
-                    $("input").attr("disabled", "disabled");
-                    
-                    clearInput();
-                    hideSuccessFailure();
-                    showResults();
-                    switchToRetry();
-                }
-            });
-        },
 
         hideSuccessFailure = function() {
             $("#success, #failure").hide()
         },
-
-        showResults = function() {
-            var elem = "<p class='text-center margin-top-small'><strong>You remembered " + correctAnswers + " out of 115 tag names!</strong></p>";
-            $(".form-group.icon-add-on").find("p").remove();
-            $(".form-group.icon-add-on").append(elem);
-        },
-
+        
         keyUpHandler = function(event) {
             var inputValue = $(this).val().trim(),
                 prompt = $("#already-answered-prompt"),
@@ -133,6 +81,59 @@ $(document).ready(function(){
                 button.attr("disabled", "disabled");
             }
         },
+
+        logInput = function(input) {
+            previousInputs.push(input);
+        },
+
+        reload = function() {
+            window.location.reload(true);
+        }
+        
+        showFailure = function() {
+            $("#success").hide();
+            $("#failure").show();
+        },
+
+        showRest = function() {
+
+            $.ajax({
+                url: '/api/v1.0/remaining_tags',
+                data: { 'answered': previousInputs },
+                traditional: true,
+                success: function(data) {
+                    for (var key in data) {
+                        var newItem = $("#new-row").template({
+                            tag: {
+                                name: key,
+                                definition: data[key]
+                            }
+                        }).filter("*");
+                        $("#still-to-learn tbody").append(newItem);
+                    }
+
+                    showAllButton.attr("disabled", "disabled");
+                    $("input").attr("disabled", "disabled");
+                    
+                    hideSuccessFailure();
+                    showResults();
+                    switchToRetry();
+                }
+            });
+            clearInput();
+        },
+        
+        showResults = function() {
+            var elem = "<p class='text-center margin-top-small'><strong>You remembered " + correctAnswers + " out of 115 tag names!</strong></p>";
+            $(".form-group.icon-add-on").find("p").remove();
+            $(".form-group.icon-add-on").append(elem);
+        },
+
+        showSuccess = function() {
+            $("#failure").hide();
+            $("#success").show();
+        },
+
         toggleDefinitionRow = function() {
             $(this).toggleClass("active-cell");
             $(this).next().toggle();
@@ -142,8 +143,9 @@ $(document).ready(function(){
             $('#retry').show();
             $('#show-all').hide();
         },
-        reload = function() {
-            window.location.reload(true);
+
+        updateCorrectAnswersIndicator = function() {
+            $("#tags-left").html(115 - correctAnswers);
         }; 
 
     $("[name=enter-input]").click(checkTagName);
