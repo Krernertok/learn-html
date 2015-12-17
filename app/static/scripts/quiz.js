@@ -2,6 +2,7 @@ $(document).ready(function(){
 
     var previousInputs = [],
         correctAnswers = 0,
+        tagCount = $('meta[name="tag-count"]').attr('value'),
         showAllButton = $("#show-all"),
         input = $("input"),
         tagList = null,
@@ -35,11 +36,16 @@ $(document).ready(function(){
                         logInput(userInput.tagName);            
                         $("#valid-tags tbody").append($("#new-row").template({tag: tag}));
 
+                        if (correctAnswers === tagCount) {
+                            displayCongratulations();
+                        }
+
                     } else {
                         logInput(userInput.wholeText);
                         showFailure();
                         $("#invalid-tags tbody").append($("#new-row").template({tag: tag}));
                     }
+
                 },
                 complete: function() {
                     input.removeAttr('disabled').attr('placeholder', 'Enter tag names here').focus();    
@@ -50,6 +56,11 @@ $(document).ready(function(){
         clearInput = function() {
             input.val("");
             $("[name=enter-input]").attr("disabled", "disabled");
+        },
+
+        displayCongratulations = function() {
+            $('form.form-group').replaceWith('<div class="col-sm-12 text-center"><strong>Congratulations!' + 
+                '</strong> You remembered all of the valid HTML5 tag names!</div>');
         },
 
         filterInput = function() {
@@ -134,7 +145,8 @@ $(document).ready(function(){
         },
 
         showResults = function() {
-            var elem = "<p class='text-center margin-top-small'><strong>You remembered " + correctAnswers + " out of 115 tag names!</strong></p>";
+            var elem = "<p class='text-center margin-top-small'><strong>You remembered " + 
+                correctAnswers + " out of " + tagCount + " tag names!</strong></p>";
             $(".form-group.icon-add-on").find("p").remove();
             $(".form-group.icon-add-on").append(elem);
         },
@@ -168,5 +180,5 @@ $(document).ready(function(){
     $('#valid-tags, #still-to-learn').on("click","tr.tag-name", toggleDefinitionRow);
     $('#retry').click(function() {
         reload();
-    })
+    });
 });

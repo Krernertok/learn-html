@@ -5,7 +5,7 @@ This repository contains the source code for my first web application, Learn HTM
 
 The project is still very much a work in progress. The following issues are next in line to be fixed:
 
-- Congratulation message when all tag names have been answered
+- Layout improvements
 
 
 Feedback will be gathered from test users to identify other usability/UX issues.

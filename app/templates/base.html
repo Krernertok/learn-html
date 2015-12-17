@@ -24,7 +24,7 @@
             {% if current_user.is_authenticated %}
                 Hi, {{ current_user.username }}! <a href="{{ url_for('auth.logout') }}">Log out?</a>
             {% elif page_active != '' %}
-                Don't be a stranger, <a href="{{ url_for('auth.login') }}">log in here</a>
+                Don't be a stranger, <a href="{{ url_for('auth.login') }}">log in here!</a>  
             {% endif %}
         {% endif %}
         </div>
