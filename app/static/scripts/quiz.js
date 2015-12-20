@@ -1,15 +1,32 @@
+/* globals jQuery, $ */
+
 $(document).ready(function(){
 
-    var previousInputs = [],
-        correctAnswers = 0,
+    var previousInputsList = [],
+        correctAnswerCount = 0,
         tagCount = $('meta[name="tag-count"]').attr('value'),
         showAllButton = $("#show-all"),
         input = $("input"),
-        tagList = null,
+        tagList = null;
+
+        $("[name=enter-input]").click(checkTagName);
+        showAllButton.click(showRest);
+        input.keyup(keyUpHandler);
+        $('#valid-tags, #still-to-learn').on("click","tr.tag-name", toggleDefinitionRow);
+        $('#retry').click(function() {
+            window.location.reload(true);
+        });
         
-        checkTagName = function() {
+        // prevent page reload when submitting answer
+        $("form").submit(function() {
+            return false;
+        });
+
+
+
+        function checkTagName() {
             var userInput = filterInput(),
-                tag =  {
+                tagObj =  {
                     name: userInput.tagName,
                     definition: null
                 };
@@ -19,7 +36,7 @@ $(document).ready(function(){
             
             $.ajax({
                 url: 'api/v1.0/definition',
-                data: {'tagname': tag.name},
+                data: {'tagname': tagObj.name},
                 dataType: 'json',
                 type: 'GET',
                 success: function(data) {
@@ -27,23 +44,22 @@ $(document).ready(function(){
 
                     if (definition) {
 
-                        tag.definition = definition;
-            
-                        correctAnswers += 1;
-                        updateCorrectAnswersIndicator();
-                        showSuccess();
-                        
-                        logInput(userInput.tagName);            
-                        $("#valid-tags tbody").append($("#new-row").template({tag: tag}));
+                        tagObj.definition = definition;
+                        $("#valid-tags tbody").append($("#new-row").template({tag: tagObj}));
 
-                        if (correctAnswers === tagCount) {
+                        correctAnswerCount += 1;
+                        updateCorrectAnswerCountIndicator();
+                        logInput(userInput.tagName);
+                        showSuccess();
+
+                        if (correctAnswerCount === tagCount) {
                             displayCongratulations();
                         }
 
                     } else {
+                        $("#invalid-tags tbody").append($("#new-row").template({tag: tagObj}));
                         logInput(userInput.wholeText);
                         showFailure();
-                        $("#invalid-tags tbody").append($("#new-row").template({tag: tag}));
                     }
 
                 },
@@ -51,19 +67,9 @@ $(document).ready(function(){
                     input.removeAttr('disabled').attr('placeholder', 'Enter tag names here').focus();    
                 }
             });
-        },
-        
-        clearInput = function() {
-            input.val("");
-            $("[name=enter-input]").attr("disabled", "disabled");
-        },
+        }
 
-        displayCongratulations = function() {
-            $('form.form-group').replaceWith('<div class="col-sm-12 text-center"><strong>Congratulations!' + 
-                '</strong> You remembered all of the valid HTML5 tag names!</div>');
-        },
-
-        filterInput = function() {
+        function filterInput() {
             var inputFilter = /^(\S+)(\s*(.*))$/,
                 inputs = inputFilter.exec(input.val().trim()); 
             
@@ -71,13 +77,41 @@ $(document).ready(function(){
                 tagName: inputs[0],
                 wholeText: inputs[2]
             };
-        },
-
-        hideSuccessFailure = function() {
-            $("#success, #failure").hide()
-        },
+        }
         
-        keyUpHandler = function(event) {
+        function clearInput() {
+            input.val("");
+            $("[name=enter-input]").attr("disabled", "disabled");
+        }
+
+        function updateCorrectAnswerCountIndicator() {
+            $("#tags-left").html(115 - correctAnswerCount);
+        }
+
+        function showSuccess() {
+            $("#failure").hide();
+            $("#success").show();
+        }
+
+        function showFailure() {
+            $("#success").hide();
+            $("#failure").show();
+        }
+
+        function displayCongratulations() {
+            $('form.form-group').replaceWith('<div class="col-sm-12 text-center"><strong>Congratulations!' + 
+                '</strong> You remembered all of the valid HTML5 tag names!</div>');
+        }
+
+        function logInput(input) {
+            previousInputsList.push(input);
+        }
+
+
+
+        // checks if input text has already been given as an answer and 
+        // checks tag name when Return is pressed
+        function keyUpHandler() {
             var inputValue = $(this).val().trim(),
                 prompt = $("#already-answered-prompt"),
                 button = $("[name=enter-input]");
@@ -85,7 +119,7 @@ $(document).ready(function(){
             hideSuccessFailure();
 
             if (inputValue) {
-                if ($.inArray(inputValue, previousInputs) > -1) {
+                if ($.inArray(inputValue, previousInputsList) > -1) {
                     prompt.removeClass("invisible");
                     button.attr("disabled", "disabled");
                 } else {
@@ -101,26 +135,20 @@ $(document).ready(function(){
                 prompt.addClass("invisible");
                 button.attr("disabled", "disabled");
             }
-        },
-
-        logInput = function(input) {
-            previousInputs.push(input);
-        },
-
-        reload = function() {
-            window.location.reload(true);
         }
-        
-        showFailure = function() {
-            $("#success").hide();
-            $("#failure").show();
-        },
 
-        showRest = function() {
+        function hideSuccessFailure() {
+            $("#success, #failure").hide()
+        }
+
+
+
+
+        function showRest() {
 
             $.ajax({
                 url: '/api/v1.0/remaining_tags',
-                data: { 'answered': previousInputs },
+                data: { 'answered': previousInputsList },
                 traditional: true,
                 success: function(data) {
                     for (var key in data) {
@@ -142,43 +170,24 @@ $(document).ready(function(){
                     switchToRetry();
                 }
             });
-        },
+        }
 
-        showResults = function() {
+        function showResults() {
             var elem = "<p class='text-center margin-top-small'><strong>You remembered " + 
-                correctAnswers + " out of " + tagCount + " tag names!</strong></p>";
+                correctAnswerCount + " out of " + tagCount + " tag names!</strong></p>";
             $(".form-group.icon-add-on").find("p").remove();
             $(".form-group.icon-add-on").append(elem);
-        },
+        }
 
-        showSuccess = function() {
-            $("#failure").hide();
-            $("#success").show();
-        },
-
-        toggleDefinitionRow = function() {
-            $(this).toggleClass("active-cell");
-            $(this).next().toggle();
-        },
-
-        switchToRetry = function() {
+        function switchToRetry() {
             $('#retry').show();
             $('#show-all').hide();
-        },
+        }
 
-        updateCorrectAnswersIndicator = function() {
-            $("#tags-left").html(115 - correctAnswers);
-        }; 
 
-    $("[name=enter-input]").click(checkTagName);
-    showAllButton.click(showRest);
-    $("form").submit(function() {
-        return false;
-    });
-    input.keyup(keyUpHandler);
-    
-    $('#valid-tags, #still-to-learn').on("click","tr.tag-name", toggleDefinitionRow);
-    $('#retry').click(function() {
-        reload();
-    });
+
+        function toggleDefinitionRow() {
+            $(this).toggleClass("active-cell");
+            $(this).next().toggle();
+        }
 });
