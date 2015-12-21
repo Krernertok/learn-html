@@ -4197,7 +4197,6 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
   position: relative;
   min-height: 50px;
   margin-bottom: 20px;
-  margin-top: 20px;
   border: 1px solid transparent;
 }
 @media (min-width: 768px) {
@@ -6774,6 +6773,9 @@ button.close {
 .margin-top-medium {
   margin-top: 30px;
 }
+.margin-top-med-small {
+  margin-top: 20px;
+}
 .margin-top-small {
   margin-top: 10px;
 }
@@ -6811,6 +6813,12 @@ button.close {
 .invisible {
   visibility: hidden;
 }
+.flash {
+  margin-top: 20px;
+}
+#tags-left {
+  font-weight: bold;
+}
 .btn-default:disabled,
 .btn-default[disabled]:hover {
   background-color: #ccc;
@@ -6824,6 +6832,18 @@ button.close {
 }
 .btn-secondary {
   background-color: #f06529;
+}
+.btn-group .btn-default {
+  width: auto;
+}
+.btn-group a:hover {
+  text-decoration: none;
+}
+.btn.btn-default.back-button {
+  width: 40px;
+}
+.navbar {
+  margin-top: 20px;
 }
 .nav > li > a {
   color: #fff;
@@ -6843,6 +6863,9 @@ button.close {
   height: 100%;
   width: auto;
   margin: 0 auto;
+}
+.empty-nav {
+  height: 92px;
 }
 .active-cell,
 .active-cell:hover {
@@ -6889,61 +6912,24 @@ table tbody td.no-borders {
 .icon-add-on {
   position: relative;
 }
-
-/* 
- * Temp styles here 
- */
-
 .login-wrapper {
   margin-top: 50px;
   padding: 20px;
 }
-
+.login-wrapper img {
+  width: 100%;
+  margin-bottom: 20px;
+}
+.login-wrapper input.btn {
+  margin-top: 20px;
+}
+.login-logout {
+  position: relative;
+  top: 10px;
+}
 @media (min-width: 768px) {
   .login-wrapper {
     border: 1px solid #e34c26;
     border-radius: 5px;
   }
-}
-
-.login-wrapper img {
-  width: 100%;
-  margin-bottom: 20px;
-}
-
-.login-wrapper input.btn {
-  margin-top: 20px;
-}
-
-.login-logout {
-  position: relative;
-  top: 10px;
-}
-
-.btn-group .btn-default {
-  width: auto;
-}
-
-.btn-group a:hover {
-  text-decoration: none;
-}
-
-.flash {
-  margin-top: 20px;
-}
-
-.empty-nav {
-  height: 92px;
-}
-
-#tags-left {
-  font-weight: bold;
-}
-
-.btn.btn-default.back-button {
-  width: 40px;
-}
-
-.margin-top-med-small {
-  margin-top: 20px;
 }
