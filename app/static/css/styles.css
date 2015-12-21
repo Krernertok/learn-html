@@ -6913,7 +6913,6 @@ table tbody td.no-borders {
   position: relative;
 }
 .login-wrapper {
-  margin-top: 50px;
   padding: 20px;
 }
 .login-wrapper img {
@@ -6929,6 +6928,7 @@ table tbody td.no-borders {
 }
 @media (min-width: 768px) {
   .login-wrapper {
+    margin-top: 50px;
     border: 1px solid #e34c26;
     border-radius: 5px;
   }
